@@ -10,8 +10,12 @@ import { INITIAL_TRANSACTIONS } from './constants';
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
+  
+  // Changed key to '_db' to force a fresh start for users who had the old sample data
+  const STORAGE_KEY = 'ecofin_transactions_db';
+
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
-    const saved = localStorage.getItem('ecofin_transactions');
+    const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? JSON.parse(saved) : INITIAL_TRANSACTIONS;
   });
 
@@ -25,7 +29,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('ecofin_transactions', JSON.stringify(transactions));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
   }, [transactions]);
 
   const handleLogin = () => {
